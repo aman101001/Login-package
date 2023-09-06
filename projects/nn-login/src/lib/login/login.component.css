@@ -1,0 +1,73 @@
+.centered-div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+}
+.centered-div form {
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  font-family: "sans-serif";
+}
+.centered-div form p {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+}
+.centered-div form hr {
+  color: #e2e2e2;
+  height: 10px;
+}
+.centered-div form div {
+  display: flex;
+  justify-content: space-between;
+}
+.centered-div form div label {
+  width: 40%;
+  font-size: 12px;
+}
+.centered-div form div input {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  height: 35px;
+  width: 100%;
+  outline: none;
+  transition: box-shadow 0.2s ease;
+  font-size: 11px;
+  padding-left: 10px;
+}
+.centered-div form div input:focus {
+  border-radius: 5px;
+  border: 1px solid lightblue;
+  outline: none;
+  box-shadow: 0px 0px 5px #198cf0;
+}
+.centered-div form .login-btn {
+  margin: auto;
+  width: 15%;
+  margin-top: 20px;
+}
+.centered-div form .login-btn input {
+  padding: 0;
+  text-align: center;
+  background-color: #198cf0;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  height: 30px;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-size: 12px;
+}
+.centered-div form .login-btn input:hover {
+  background-color: #0668f8;
+}
+.centered-div form .message {
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  color: red;
+}/*# sourceMappingURL=login.component.css.map */

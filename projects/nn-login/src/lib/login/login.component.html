@@ -1,0 +1,25 @@
+<div class="centered-div">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <p>LOGIN</p>
+        <br>
+        <hr>
+        <br>
+        <div>
+            <label>Email</label>
+            <input type="email" formControlName="email">
+        </div>
+        <br>
+        <div>
+            <label>Password</label>
+            <input type="password" formControlName="password">
+        </div>
+        <br>
+        <p class="message" *ngIf="errmssg" >
+            Invalid email. Please enter a valid email address.    
+         </p>
+        <br>
+        <div class="login-btn">
+            <input type="submit" value="Login">
+        </div>
+    </form>
+</div>

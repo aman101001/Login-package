@@ -99,6 +99,39 @@
           }
         }
       }
+    },
+    "nn-login": {
+      "projectType": "library",
+      "root": "projects/nn-login",
+      "sourceRoot": "projects/nn-login/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/nn-login/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/nn-login/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/nn-login/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/nn-login/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   }
 }

@@ -10,7 +10,7 @@ import { LoginService
 export class LoginComponent implements OnInit {
   myForm!: FormGroup;
   errmssg:Boolean = false;
-  @Input() DB_URL:any;
+  @Input() data:any;
   constructor(private loginService: LoginService, private fb: FormBuilder){
  
   }
@@ -28,11 +28,9 @@ export class LoginComponent implements OnInit {
       let data={
         email : this.myForm.value.email,
         password : this.myForm.value.password,
-        DB_URL : this.DB_URL
+        DB_URL : this.data
       };
-        this.loginService.login( data ).subscribe(()=>{
-          
-        })
+        this.loginService.login( data )
     } else {
       // Invalid email
       this.errmssg = true;

@@ -8,8 +8,7 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
   login(data:any){
-    // return this.http.post('', data);
     console.log(data);
-    // this.http.post('https://blogtesting.99games.in'+ 'login', data);
+    return this.http.post('http://localhost:8080/'+ 'login', data);
   }
 }

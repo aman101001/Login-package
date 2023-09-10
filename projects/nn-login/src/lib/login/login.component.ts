@@ -30,7 +30,9 @@ export class LoginComponent implements OnInit {
         password : this.myForm.value.password,
         DB_URL : this.data
       };
-        this.loginService.login( data )
+        this.loginService.login( data ).subscribe((msg)=>{
+           console.log(msg);
+        })
     } else {
       // Invalid email
       this.errmssg = true;

@@ -10,7 +10,8 @@ import { FormGroup, FormControl, FormArray ,FormBuilder} from '@angular/forms';
 export class AppComponent implements OnInit{
   myForm!: FormGroup;
   errmssg:Boolean = false;
-  DB_URL:any="aman";
+  DB_URL:any="";
+  // mongodb://0.0.0.0:27017/student
   constructor( private fb: FormBuilder){
  
   }

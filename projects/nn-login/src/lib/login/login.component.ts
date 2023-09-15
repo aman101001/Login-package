@@ -1,41 +1,94 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray ,FormBuilder} from '@angular/forms';
-import { LoginService
- } from './login.service';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { LoginService } from './login.service';
+import { Router } from '@angular/router';
+
+
 @Component({
   selector: 'lib-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  myForm!: FormGroup;
-  errmssg:Boolean = false;
-  @Input() data:any;
-  constructor(private loginService: LoginService, private fb: FormBuilder){
- 
+  loginForm!: FormGroup;
+  loginsuccessful: boolean = true;
+  userSession: any;
+  confirmPassword: any;
+  passwordMssg: Boolean = false;
+  @Input() data: any;
+
+  constructor(private loginService: LoginService, private fb: FormBuilder, private router: Router) {
+
   }
   ngOnInit() {
-    this.myForm = new FormGroup({
-      email: new FormControl(''),
-      password: new FormControl(''),
+    this.loginForm = new FormGroup({
+      email: new FormControl('',Validators.required),
+      password: new FormControl('',Validators.required),
+    });
+
+    if (localStorage.getItem('sessionId')) {
+      this.userSession = localStorage.getItem('sessionId');
+    }
+    if (this.userSession != 'null') {
+      this.loginService.getUserDetails(this.userSession).subscribe((res: any) => {
+        if (res) {
+          localStorage.setItem('userId', res['session']['user']['details']['id']);
+          // localStorage.setItem('login', 'Config')
+          localStorage.setItem('userName', res['session']['username']);
+          this.loginService.generateToken().subscribe((res: any) => {
+            if (res) {
+              localStorage.setItem('token', res.token);
+              // this.router.navigateByUrl('/layout');
+            }
+          });
+        }
+      });
+    }
+  }
+  onSubmit() {
+    this.passwordMssg = false;
+    this.loginsuccessful = true;
+    var body = {};
+    if(this.loginForm.valid){
+    body = {
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password,
+      DB_URL: this.data.DB_URL
+    };
+    this.loginService.login(body).subscribe((res: any) => {
+      localStorage.setItem('token', res.token),
+        localStorage.setItem('email', res.email)
+      this.router.navigateByUrl(this.data.routePath);
+    }, (error: any) => {
+      if (error.status === 401) {
+        this.loginsuccessful = false;
+      }
     })
   }
-  onSubmit(){
-    
-    var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    let email = this.myForm.value.email;
-    if (emailRegex.test(email)) {
-      let data={
-        email : this.myForm.value.email,
-        password : this.myForm.value.password,
-        DB_URL : this.data
+  }
+
+  addUser() {
+    this.passwordMssg = false;
+    this.loginsuccessful = true;
+    var body = {};
+    if(this.loginForm.valid && (this.loginForm.value.password === this.confirmPassword)){
+      body = {
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+        DB_URL: this.data.DB_URL
       };
-        this.loginService.login( data ).subscribe((msg)=>{
-           console.log(msg);
-        })
-    } else {
-      // Invalid email
-      this.errmssg = true;
+      this.loginService.addUser(body).subscribe((res: any) => {
+        alert("User added successfully!!")
+        this.router.navigateByUrl(this.data.routePath);
+      }, (error: any) => {
+        if (error.status === 404) {
+          this.loginsuccessful = false;
+        }
+      })
     }
+  }
+
+  validatePassword() {
+    this.passwordMssg=(this.loginForm.value.password != this.confirmPassword)?true:false;
   }
 }

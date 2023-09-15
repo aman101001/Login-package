@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray ,FormBuilder} from '@angular/forms';
+
 
 
 @Component({
@@ -8,27 +8,14 @@ import { FormGroup, FormControl, FormArray ,FormBuilder} from '@angular/forms';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  myForm!: FormGroup;
-  errmssg:Boolean = false;
-  DB_URL:any="";
-  // mongodb://0.0.0.0:27017/student
-  constructor( private fb: FormBuilder){
+  DB_URL= "mongodb://localhost:27017/login";
+ 
+  
+  constructor(){
  
   }
   ngOnInit() {
-    this.myForm = new FormGroup({
-      email: new FormControl(''),
-      password: new FormControl(''),
-    })
+   
   }
-  onSubmit(){
-    var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    let email = this.myForm.value.email;
-    if (emailRegex.test(email)) {
-        
-    } else {
-      // Invalid email
-      this.errmssg = true;
-    }
-  }
+ 
 }

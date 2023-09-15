@@ -8,7 +8,18 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
   login(data:any){
-    console.log(data);
-    return this.http.post('http://localhost:8080/'+ 'login', data);
+    return this.http.post('http://localhost:8080/'+ 'login', data); //should provide the path of server
+  }
+
+  addUser(data:any){
+      return this.http.post('http://localhost:8080/'+ 'addUser', data); //should provide the path of server
+  }
+
+  getUserDetails(sessId:any) {
+    return this.http.get('http://staging.99games.mobi:8089/api/users/session/' + sessId)
+  }
+
+  generateToken() {
+    return this.http.get('http://localhost:8080/' + 'authenticate');
   }
 }

@@ -6,12 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./add-user.component.scss']
 })
 export class AddUserComponent {
-  config ={
-    DB_URL: "mongodb://localhost:27017/login",
-    routePath: "/",
-    type:{
-      login : false,
-      addUser :true
-    }
-  }
+  // config ={
+  //   DB_URL: "mongodb://localhost:27017/login",
+  //   routePath: "/",
+  //   type:{
+  //     login : false,
+  //     addUser :true
+  //   }
+  // }
 }

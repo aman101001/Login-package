@@ -10,85 +10,119 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  @Input() DB_URL="";
+  @Input() routePath="";
+  @Input() login=false;
+  @Input() manageUser=false;
+  
+
+
   loginForm!: FormGroup;
-  loginsuccessful: boolean = true;
   userSession: any;
   confirmPassword: any;
-  passwordMssg: Boolean = false;
-  @Input() data: any;
+  invalidInputFields:any = [];
+
+  loginsuccessful: boolean = true;
+  passwordMssg: boolean = false;
+
 
   constructor(private loginService: LoginService, private fb: FormBuilder, private router: Router) {
-
+       
   }
-  ngOnInit() {
+  ngOnInit() { 
     this.loginForm = new FormGroup({
-      email: new FormControl('',Validators.required),
-      password: new FormControl('',Validators.required),
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
     });
-
-    if (localStorage.getItem('sessionId')) {
-      this.userSession = localStorage.getItem('sessionId');
-    }
-    if (this.userSession != 'null') {
-      this.loginService.getUserDetails(this.userSession).subscribe((res: any) => {
-        if (res) {
-          localStorage.setItem('userId', res['session']['user']['details']['id']);
-          // localStorage.setItem('login', 'Config')
-          localStorage.setItem('userName', res['session']['username']);
-          this.loginService.generateToken().subscribe((res: any) => {
-            if (res) {
-              localStorage.setItem('token', res.token);
-              // this.router.navigateByUrl('/layout');
-            }
-          });
-        }
-      });
-    }
+    // if (localStorage.getItem('sessionId')) {
+    //   this.userSession = localStorage.getItem('sessionId');
+    // }
+    // if (this.userSession != 'null') {
+    //   this.loginService.getUserDetails(this.userSession).subscribe((res: any) => {
+    //     if (res) {
+    //       localStorage.setItem('userId', res['session']['user']['details']['id']);
+    //       // localStorage.setItem('login', 'Config')
+    //       localStorage.setItem('userName', res['session']['username']);
+    //       this.loginService.generateToken().subscribe((res: any) => {
+    //         if (res) {
+    //           localStorage.setItem('token', res.token);
+    //           // this.router.navigateByUrl('/layout');
+    //         }
+    //       });
+    //     }
+    //   });
+    // }
   }
   onSubmit() {
     this.passwordMssg = false;
     this.loginsuccessful = true;
     var body = {};
-    if(this.loginForm.valid){
-    body = {
-      email: this.loginForm.value.email,
-      password: this.loginForm.value.password,
-      DB_URL: this.data.DB_URL
-    };
-    this.loginService.login(body).subscribe((res: any) => {
-      localStorage.setItem('token', res.token),
-        localStorage.setItem('email', res.email)
-      this.router.navigateByUrl(this.data.routePath);
-    }, (error: any) => {
-      if (error.status === 401) {
-        this.loginsuccessful = false;
-      }
-    })
-  }
-  }
-
-  addUser() {
-    this.passwordMssg = false;
-    this.loginsuccessful = true;
-    var body = {};
-    if(this.loginForm.valid && (this.loginForm.value.password === this.confirmPassword)){
+    if (this.loginForm.valid) {
       body = {
         email: this.loginForm.value.email,
         password: this.loginForm.value.password,
-        DB_URL: this.data.DB_URL
+        DB_URL: this.DB_URL
       };
-      this.loginService.addUser(body).subscribe((res: any) => {
-        alert("User added successfully!!")
-        this.router.navigateByUrl(this.data.routePath);
+      this.loginService.login(body).subscribe((res: any) => {
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('email', res.email);
+        this.router.navigateByUrl(this.routePath);
       }, (error: any) => {
-        if (error.status === 404) {
+        if (error.status === 401) {
           this.loginsuccessful = false;
         }
       })
+    } else {
+      // for (let controlName in this.loginForm.controls) {
+      // const control = this.loginForm.get(controlName);
+      //   if (control?.invalid) {
+      //     this.invalidInputFields.push(control);
+      //   }
+      // }
     }
   }
 
-  validatePassword() {
-    this.passwordMssg=(this.loginForm.value.password != this.confirmPassword)?true:false;
+  addUser() { 
+    var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/; 
+    this.passwordMssg = false;
+    this.loginsuccessful = true;
+    var body = {};
+    if(this.DB_URL && this.loginForm.valid){
+      if (!emailRegex.test(this.loginForm.value.email)){
+         console.log("Invalid Email");
+         return;
+      }
+        if(this.loginForm.value.password === this.confirmPassword){
+        body = {
+          email: this.loginForm.value.email,
+          password: this.loginForm.value.password,
+          DB_URL: this.DB_URL
+        };
+        this.loginService.addUser(body).subscribe((res: any) => {
+          alert("User added successfully!!")
+          this.router.navigateByUrl(this.routePath);
+        }, (error: any) => {
+          if (error.status === 404) {
+            this.loginsuccessful = false;
+          }
+        })
+      } else {
+        this.passwordMssg=true;
+      }
+    } else {
+      // for (let controlName in this.loginForm.controls) {
+      //   const control = this.loginForm.get(controlName);
+      //     if (control?.invalid) {
+      //       this.invalidInputFields.push(control);
+      //     }
+      //   }
+    
+    }
+
   }
+
+  validatePassword() {
+    this.passwordMssg = (this.loginForm.value.password != this.confirmPassword) ? true : false;
+  }
+
 }

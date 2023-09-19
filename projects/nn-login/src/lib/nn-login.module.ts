@@ -5,7 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
+import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 @NgModule({
   declarations: [
     NnLoginComponent,
@@ -15,7 +17,10 @@ import { FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     CommonModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    BrowserModule
   
   ],
   exports: [

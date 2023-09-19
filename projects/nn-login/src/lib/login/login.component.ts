@@ -18,13 +18,13 @@ export class LoginComponent implements OnInit {
 
 
   loginForm!: FormGroup;
-  userSession: any;
+  // userSession: any;
   confirmPassword: any;
   invalidInputFields:any = [];
 
   loginsuccessful: boolean = true;
-  passwordMssg: boolean = false;
-
+  passwordsuccessful : boolean = true;
+  emailsuccessful: boolean =true;
 
   constructor(private loginService: LoginService, private fb: FormBuilder, private router: Router) {
        
@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
     // }
   }
   onSubmit() {
-    this.passwordMssg = false;
     this.loginsuccessful = true;
     var body = {};
     if (this.loginForm.valid) {
@@ -84,12 +83,12 @@ export class LoginComponent implements OnInit {
 
   addUser() { 
     var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/; 
-    this.passwordMssg = false;
-    this.loginsuccessful = true;
+    this.passwordsuccessful = true;
+    this.emailsuccessful = true;
     var body = {};
     if(this.DB_URL && this.loginForm.valid){
       if (!emailRegex.test(this.loginForm.value.email)){
-         console.log("Invalid Email");
+         this.emailsuccessful = false;
          return;
       }
         if(this.loginForm.value.password === this.confirmPassword){
@@ -107,7 +106,7 @@ export class LoginComponent implements OnInit {
           }
         })
       } else {
-        this.passwordMssg=true;
+        this.passwordsuccessful=false;
       }
     } else {
       // for (let controlName in this.loginForm.controls) {
@@ -122,7 +121,7 @@ export class LoginComponent implements OnInit {
   }
 
   validatePassword() {
-    this.passwordMssg = (this.loginForm.value.password != this.confirmPassword) ? true : false;
+    this.passwordsuccessful = (this.loginForm.value.password != this.confirmPassword) ? false : true;
   }
 
 }

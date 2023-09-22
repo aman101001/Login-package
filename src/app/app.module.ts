@@ -9,6 +9,9 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AddUserComponent } from './add-user/add-user.component';
 
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +23,9 @@ import { AddUserComponent } from './add-user/add-user.component';
     BrowserModule,
     NnLoginModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+
+  
   ],
   providers: [],
   bootstrap: [AppComponent]

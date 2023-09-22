@@ -12,12 +12,11 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   @Input() DB_URL="";
   @Input() routePath="";
-  @Input() login=false;
-  @Input() manageUser=false;
+
   
 
 
-  loginForm!: FormGroup;
+  adminForm!: FormGroup;
   // userSession: any;
   confirmPassword: any;
   invalidInputFields:any = [];
@@ -30,7 +29,8 @@ export class LoginComponent implements OnInit {
        
   }
   ngOnInit() { 
-    this.loginForm = new FormGroup({
+
+    this.adminForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
@@ -56,10 +56,10 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.loginsuccessful = true;
     var body = {};
-    if (this.loginForm.valid) {
+    if (this.adminForm.valid) {
       body = {
-        email: this.loginForm.value.email,
-        password: this.loginForm.value.password,
+        email: this.adminForm.value.email,
+        password: this.adminForm.value.password,
         DB_URL: this.DB_URL
       };
       this.loginService.login(body).subscribe((res: any) => {
@@ -72,8 +72,8 @@ export class LoginComponent implements OnInit {
         }
       })
     } else {
-      // for (let controlName in this.loginForm.controls) {
-      // const control = this.loginForm.get(controlName);
+      // for (let controlName in this.adminForm.controls) {
+      // const control = this.adminForm.get(controlName);
       //   if (control?.invalid) {
       //     this.invalidInputFields.push(control);
       //   }
@@ -86,15 +86,15 @@ export class LoginComponent implements OnInit {
     this.passwordsuccessful = true;
     this.emailsuccessful = true;
     var body = {};
-    if(this.DB_URL && this.loginForm.valid){
-      if (!emailRegex.test(this.loginForm.value.email)){
+    if(this.DB_URL && this.adminForm.valid){
+      if (!emailRegex.test(this.adminForm.value.email)){
          this.emailsuccessful = false;
          return;
       }
-        if(this.loginForm.value.password === this.confirmPassword){
+        if(this.adminForm.value.password === this.confirmPassword){
         body = {
-          email: this.loginForm.value.email,
-          password: this.loginForm.value.password,
+          email: this.adminForm.value.email,
+          password: this.adminForm.value.password,
           DB_URL: this.DB_URL
         };
         this.loginService.addUser(body).subscribe((res: any) => {
@@ -109,8 +109,8 @@ export class LoginComponent implements OnInit {
         this.passwordsuccessful=false;
       }
     } else {
-      // for (let controlName in this.loginForm.controls) {
-      //   const control = this.loginForm.get(controlName);
+      // for (let controlName in this.adminForm.controls) {
+      //   const control = this.adminForm.get(controlName);
       //     if (control?.invalid) {
       //       this.invalidInputFields.push(control);
       //     }
@@ -121,7 +121,7 @@ export class LoginComponent implements OnInit {
   }
 
   validatePassword() {
-    this.passwordsuccessful = (this.loginForm.value.password != this.confirmPassword) ? false : true;
+    this.passwordsuccessful = (this.adminForm.value.password != this.confirmPassword) ? false : true;
   }
 
 }

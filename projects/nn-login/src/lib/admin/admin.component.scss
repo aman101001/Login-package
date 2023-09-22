@@ -42,7 +42,7 @@
             color: #ffffff;
         }
 
-        div {
+        .form-field {
             display: flex;
             label {
                 width:15%;
@@ -76,11 +76,12 @@
         }
 
         .login-btn {
-            margin: auto;
-            width: 20%;
+            // margin: auto;
+            // width: 20%;
             margin-top: 20px;
 
             input {
+                width:100%;
                 padding: 0;
                 text-align: center;
                 background-color: #198cf0;
@@ -98,6 +99,17 @@
                 }
             }
         }
+        #remove-user{
+            font-size:12px;
+            font-weight:500;
+            text-align: right;
+            margin-right:10px;
+            cursor:pointer;
+            color:#1877f2;
+            &:hover{
+               text-decoration: underline;
+            }
+           }
         .message { 
             text-align: center;
             font-weight: inherit;
@@ -118,3 +130,10 @@
 // .required{
 //     border: 1px solid red !important;
 // }
+
+.red-background{
+    background-color:#f33 !important;
+    &:hover{
+        background-color: red !important;
+    }
+}

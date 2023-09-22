@@ -111,6 +111,7 @@
           "options": {
             "project": "projects/nn-login/ng-package.json"
           },
+          
           "configurations": {
             "production": {
               "tsConfig": "projects/nn-login/tsconfig.lib.prod.json"

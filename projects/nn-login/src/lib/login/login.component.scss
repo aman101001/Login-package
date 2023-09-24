@@ -41,8 +41,8 @@
         hr {
             color: #ffffff;
         }
+        .form-field {
 
-        div {
             display: flex;
             label {
                 width:15%;
@@ -76,11 +76,12 @@
         }
 
         .login-btn {
-            margin: auto;
-            width: 20%;
+            // margin: auto;
+            // width: 20%;
             margin-top: 20px;
 
             input {
+                width:100%;
                 padding: 0;
                 text-align: center;
                 background-color: #198cf0;
@@ -98,6 +99,20 @@
                 }
             }
         }
+        #forgot-password{
+            display:flex;
+            justify-content:right;
+            p{
+                margin-right:10px;
+                font-size:12px;
+                font-weight:500;
+                cursor:pointer;
+                color:#1877f2;
+                &:hover{
+                   text-decoration: underline;
+                }
+               }
+            }
         .message { 
             text-align: center;
             font-weight: inherit;

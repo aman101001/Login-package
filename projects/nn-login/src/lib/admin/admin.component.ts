@@ -14,7 +14,7 @@ export class AdminComponent {
   // @Input() login=false;
   // @Input() manageUser=false;
 
-  loginForm!: FormGroup;
+  adminForm!: FormGroup;
 
   confirmPassword: any;
   confirmEmail: any;
@@ -30,7 +30,7 @@ export class AdminComponent {
   }
 
   ngOnInit() {
-    this.loginForm = new FormGroup({
+    this.adminForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     });
@@ -42,15 +42,15 @@ export class AdminComponent {
     this.errorMssg="";
 
     if (!this.removeuser) {
-      if (this.DB_URL && this.loginForm.valid) {
-        if (!emailRegex.test(this.loginForm.value.email)) {
+      if (this.DB_URL && this.adminForm.valid) {
+        if (!emailRegex.test(this.adminForm.value.email)) {
           this.errorMssg = "Please enter a valid Email Id!";
           return;
         }
-        if (this.loginForm.value.password === this.confirmPassword) {
+        if (this.adminForm.value.password === this.confirmPassword) {
           body = {
-            email: this.loginForm.value.email,
-            password: this.loginForm.value.password,
+            email: this.adminForm.value.email,
+            password: this.adminForm.value.password,
             DB_URL: this.DB_URL
           };
           this.adminService.addUser(body).subscribe((res: any) => {
@@ -64,14 +64,14 @@ export class AdminComponent {
         }
       }
     } else {
-      if (this.DB_URL && this.loginForm.get('email')?.valid) {
-        if (!emailRegex.test(this.loginForm.value.email)) {
+      if (this.DB_URL && this.adminForm.get('email')?.valid) {
+        if (!emailRegex.test(this.adminForm.value.email)) {
           this.errorMssg = "Please enter a valid Email Id!";
           return;
         }
-        if (this.loginForm.value.email === this.confirmEmail) {
+        if (this.adminForm.value.email === this.confirmEmail) {
           body = {
-            email: this.loginForm.value.email,
+            email: this.adminForm.value.email,
             DB_URL: this.DB_URL
           };
           if (confirm("User details will be deleted. Are you sure ?")) {
@@ -92,8 +92,8 @@ export class AdminComponent {
 
   // else {
 
-  // for (let controlName in this.loginForm.controls) {
-  //   const control = this.loginForm.get(controlName);
+  // for (let controlName in this.adminForm.controls) {
+  //   const control = this.adminForm.get(controlName);
   //     if (control?.invalid) {
   //       this.invalidInputFields.push(control);
   //     }
@@ -102,16 +102,16 @@ export class AdminComponent {
   // }
   removeUser(){
     this.removeuser=true;
-    this.loginForm.reset();
+    this.adminForm.reset();
     this.heading="Delete"
   }
 
 
   validate(type:any){
     if(type==1){
-      this.errorMssg = (this.loginForm.value.password != this.confirmPassword) ? "Password's do not match!" : ""
+      this.errorMssg = (this.adminForm.value.password != this.confirmPassword) ? "Password's do not match!" : ""
     } else {
-      this.errorMssg = (this.loginForm.value.email != this.confirmEmail) ? "Email do not match!" : "";
+      this.errorMssg = (this.adminForm.value.email != this.confirmEmail) ? "Email do not match!" : "";
     }
   }
 }

@@ -41,7 +41,6 @@
         hr {
             color: #ffffff;
         }
-
         .form-field {
             display: flex;
             label {
@@ -100,16 +99,20 @@
             }
         }
         #remove-user{
-            font-size:12px;
-            font-weight:500;
-            text-align: right;
-            margin-right:10px;
-            cursor:pointer;
-            color:#1877f2;
-            &:hover{
-               text-decoration: underline;
+            display:flex;
+            justify-content:right;
+            p{
+                margin-right:10px;
+                font-size:12px;
+                font-weight:500;
+                cursor:pointer;
+                color:#1877f2;
+                &:hover{
+                   text-decoration: underline;
+                }
+               }
             }
-           }
+            
         .message { 
             text-align: center;
             font-weight: inherit;

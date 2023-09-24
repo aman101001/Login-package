@@ -14,12 +14,11 @@
             </svg>
         </div>
     </div>
-    <form [formGroup]="loginForm" (ngSubmit)="addUser()">
+    <form [formGroup]="adminForm" (ngSubmit)="addUser()">
         <p>{{heading}} User</p>
         <br>
         <hr>
         <br>
-
         <div class="form-field">
             <label>
                 <svg width="25px" height="25px" viewBox="0 0 72.00 72.00" id="Layer_1" data-name="Layer 1"
@@ -117,7 +116,10 @@
             </label>
             <input type="email" placeholder="Reenter Username" [(ngModel)]="confirmEmail" [ngModelOptions]="{standalone: true}" (keyup)="validate(2)">
         </div>
-        <p *ngIf="!removeuser" id="remove-user" (click)="removeUser()">Remove User?</p>
+        <div  id="remove-user">
+            <p *ngIf="!removeuser" (click)="removeUser()">Remove User?</p>
+        </div>
+       
         <br>
         <div class="login-btn">
             <input type="submit" value={{heading}} [ngClass]="{'red-background':removeuser}">
@@ -127,6 +129,5 @@
             {{errorMssg}}
              </p>
         </div>
-       
     </form>
 </div>

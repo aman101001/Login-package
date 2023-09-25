@@ -73,7 +73,7 @@
                 </label>
                 <input type="password" formControlName="password" placeholder="Password">
             </div>
-            <div class="form-field" *ngIf="verifyCode">
+            <!-- <div class="form-field" *ngIf="verifyCode">
                 <label>
                     <svg width="25px" height="25px" viewBox="0 0 72.00 72.00" id="Layer_1" data-name="Layer 1"
                         xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000" stroke-width="0.00072">
@@ -98,8 +98,17 @@
                     </svg>
                 </label>
                 <input type="text" [(ngModel)]="resetCode" [ngModelOptions]="{standalone: true}" placeholder="Enter 4 digit verification code">
+
             </div>
-  
+   -->
+   <div class="otp-container" *ngIf="verifyCode">
+       <input type="text" id="otp1" name="otp1" [(ngModel)]="otp1" [ngModelOptions]="{standalone: true}" maxlength="1" (input)="onOtpInputChange($event,1)">
+       <input type="text" id="otp2" name="otp2" [(ngModel)]="otp2" [ngModelOptions]="{standalone: true}" maxlength="1" (input)="onOtpInputChange($event,2)">
+       <input type="text" id="otp3" name="otp3" [(ngModel)]="otp3" [ngModelOptions]="{standalone: true}" maxlength="1" (input)="onOtpInputChange($event,3)">
+       <input type="text" id="otp4" name="otp4" [(ngModel)]="otp4" [ngModelOptions]="{standalone: true}" maxlength="1" (input)="onOtpInputChange($event,4)">
+       
+
+   </div>
             <div class="form-field" *ngIf="resetPwd">
                 <label>
                     <svg width="20px" height="20px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"

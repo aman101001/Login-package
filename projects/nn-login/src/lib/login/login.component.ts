@@ -13,7 +13,10 @@ export class LoginComponent implements OnInit {
   @Input() DB_URL="";
   @Input() routePath="";
 
-  
+  otp1:string='';
+  otp2:string='';
+  otp3:string='';
+  otp4:string='';
 
 
   loginForm!: FormGroup;
@@ -139,10 +142,12 @@ forgotPassword(){
 codeVerify(){
   this.loginForm.reset();
   this.errorMssg="";
-  if(this.resetCode.length==4){
+  const otp=this.otp1+this.otp2+this.otp3+this.otp4;
+  console.log(otp.length);
+  if(otp.length==4){
     let body = {
       DB_URL:this.DB_URL,
-      code: this.resetCode,
+      code: otp,
       email: localStorage.getItem('email')
     }
     this.loginService.verifyCode(body).subscribe((res:any)=>{
@@ -191,6 +196,24 @@ changePwd(){
 
 validate(){
     this.errorMssg = (this.resetPassword != this.confirmResetPassword) ? "Password's do not match!" : ""
+}
+
+onOtpInputChange(event:any,index:number){
+  const inputValue=event.target.value;
+  console.log(event);
+  console.log(event.keyCode);
+  if(event.keyCode===8 && inputValue===''){
+    if(index>1){
+      const previousInputId=`otp${index-1}`;
+      document.getElementById(previousInputId)?.focus();
+    }
+  } else {
+    if(index<4 && inputValue!== ''){
+      const nextInputId = `otp${index+1}`;
+      document.getElementById(nextInputId)?.focus();
+    }
+  } 
+  
 }
   // addUser() { 
   //   var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/; 

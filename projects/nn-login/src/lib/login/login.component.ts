@@ -20,9 +20,19 @@ export class LoginComponent implements OnInit {
   // userSession: any;
   // confirmPassword: any;
   // invalidInputFields:any = [];
-  forgotpwd: boolean = false;
   showforgotpwd: boolean = true;
   errorMssg:any;
+  heading="Log In";
+  verifiedEmail:any;
+
+  //screens
+  forgotpwd: boolean = false;
+  verifyCode: boolean = false;
+  resetPwd:boolean = false;
+
+  resetCode:any;
+  resetPassword:any;
+  confirmResetPassword:any;
  
   constructor(private loginService: LoginService, private fb: FormBuilder, private router: Router) {
        
@@ -59,7 +69,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     this.errorMssg="";
-    var body = {};
     if(!this.forgotpwd){
       if (this.loginForm.valid) {
         if(this.DB_URL){
@@ -68,7 +77,7 @@ export class LoginComponent implements OnInit {
             return;
           }
         }
-        body = {
+        let body = {
           email: this.loginForm.value.email,
           password: this.loginForm.value.password,
           DB_URL: this.DB_URL
@@ -91,22 +100,97 @@ export class LoginComponent implements OnInit {
         // }
       }
     } else {
-      body={
-       DB_URL:this.DB_URL,
-       email: this.loginForm.value.email
-      }
-          this.loginService.reset(body).subscribe(()=>{
-            
+    if(this.loginForm.get('email')?.valid){
+        if (!emailRegex.test(this.loginForm.value.email)) {
+          this.errorMssg = "Please enter a valid Email Id!";
+          return;
+        }
+      let body={
+        DB_URL:this.DB_URL,
+        email: this.loginForm.value.email
+       }
+           this.loginService.reset(body).subscribe((res:any)=>{
+             if(res){
+               localStorage.setItem('email',body.email);
+               this.verifiedEmail=body.email;
+               this.verifyCode=true;
+               this.heading="Verification Code"
+             }
+           },(error: any) => {
+            if (error.status === 401) {
+              this.errorMssg = error.error.mssg;
+              return;
+            }
           })
+     }
     }
     
   }
 
 
 forgotPassword(){
+  this.loginForm.reset();
   this.showforgotpwd=false;
   this.forgotpwd=true;
+  this.heading="Trouble with logging in?";
 
+}
+
+codeVerify(){
+  this.loginForm.reset();
+  this.errorMssg="";
+  if(this.resetCode.length==4){
+    let body = {
+      DB_URL:this.DB_URL,
+      code: this.resetCode,
+      email: localStorage.getItem('email')
+    }
+    this.loginService.verifyCode(body).subscribe((res:any)=>{
+       if(res){
+        this.resetPwd=true;
+        this.verifyCode=false;
+        this.heading="Set New Password"
+       }
+    }, (error: any) => {
+      if (error.status === 400) {
+        this.errorMssg = error.error.mssg;
+        return;
+      }
+      if (error.status === 401) {
+        this.errorMssg = error.error.mssg;
+        return;
+      }
+    })
+  } else {
+    this.errorMssg = "Invalid verification code!"
+  }
+  
+
+  
+}
+
+changePwd(){
+  this.errorMssg="";
+  if (this.resetPassword === this.confirmResetPassword){
+    let body={
+      DB_URL:this.DB_URL,
+      password: this.resetPassword,
+      email: localStorage.getItem('email')
+    }
+    this.loginService.resetPwd(body).subscribe((res:any)=>{
+      if(res){
+        this.forgotpwd=false;
+        this.verifyCode=false;
+        this.resetPwd=false;
+        this.showforgotpwd=true;
+        this.heading="Log In"
+      }
+   })
+  }
+}
+
+validate(){
+    this.errorMssg = (this.resetPassword != this.confirmResetPassword) ? "Password's do not match!" : ""
 }
   // addUser() { 
   //   var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/; 

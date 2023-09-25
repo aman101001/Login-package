@@ -16,6 +16,15 @@ export class LoginService {
   }
 
   reset(data:any){
+    return this.http.post('http://localhost:8080/'+ 'generateCode', data);
+  }
+
+  verifyCode(data:any){
+    return this.http.post('http://localhost:8080/'+ 'verifyCode', data);
+  }
+
+  resetPwd(data:any){
+    console.log('clicked');
     return this.http.post('http://localhost:8080/'+ 'resetPwd', data);
   }
 

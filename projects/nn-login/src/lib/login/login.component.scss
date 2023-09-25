@@ -37,12 +37,18 @@
             font-weight: bold;
             font-size: 18px;
         }
+        #verification-mssg{
+            color:rgb(88, 85, 85);
+            font-size:14px;
+            font-weight:lighter;
+            letter-spacing: -0.25px;
+        }
 
         hr {
             color: #ffffff;
         }
         .form-field {
-
+            margin-top:20px;
             display: flex;
             label {
                 width:15%;

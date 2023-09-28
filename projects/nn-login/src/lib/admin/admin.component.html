@@ -15,12 +15,17 @@
         </div>
     </div>
     <form [formGroup]="adminForm" (ngSubmit)="addUser()">
+        <div class="horizontal-bar-wrap">
+            <div class="bar1 bar" *ngIf="loading">
+                
+            </div>
+        </div>
         <p>{{heading}} User</p>
         <br>
         <hr>
         <br>
         <div class="form-field">
-            <label>
+            <div class="field-icon">
                 <svg width="25px" height="25px" viewBox="0 0 72.00 72.00" id="Layer_1" data-name="Layer 1"
                     xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000" stroke-width="0.00072">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -42,12 +47,15 @@
                         </path>
                     </g>
                 </svg>
-            </label>
-            <input type="email" formControlName="email" placeholder="Username">
+            </div>
+            <div class="input-container">
+                <input type="text" formControlName="email" required="">
+                <label>Username</label>
+            </div>
         </div>
-        <!-- <br> -->
+
         <div *ngIf="!removeuser" class="form-field">
-            <label>
+            <div class="field-icon">
                 <svg width="20px" height="20px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -64,12 +72,15 @@
                         </g>
                     </g>
                 </svg>
-            </label>
-            <input type="password" formControlName="password" placeholder="Password">
+            </div>
+            <div class="input-container">
+                <input type="password" formControlName="password" required="">
+                <label>Password</label>
+            </div>
         </div>
-        <!-- <br *ngIf="!removeuser"> -->
+
         <div *ngIf="!removeuser" class="form-field">
-            <label>
+            <div class="field-icon">
                 <svg width="20px" height="20px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#000000">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -86,12 +97,16 @@
                         </g>
                     </g>
                 </svg>
-            </label>
-            <input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}"
-                placeholder="Confirm Password" (keyup)="validate(1)" required>
+            </div>
+            <div class="input-container">
+                <input type="password" [(ngModel)]="confirmPassword" [ngModelOptions]="{standalone: true}"
+                    (keyup)="validate(1)" required="">
+                <label>Confirm Password</label>
+            </div>
         </div>
+
         <div *ngIf="removeuser" class="form-field">
-            <label>
+            <div class="field-icon">
                 <svg width="25px" height="25px" viewBox="0 0 72.00 72.00" id="Layer_1" data-name="Layer 1"
                     xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000" stroke-width="0.00072">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -113,21 +128,27 @@
                         </path>
                     </g>
                 </svg>
-            </label>
-            <input type="email" placeholder="Reenter Username" [(ngModel)]="confirmEmail" [ngModelOptions]="{standalone: true}" (keyup)="validate(2)">
+            </div>
+            <div class="input-container">
+                <input type="text" [(ngModel)]="confirmEmail" [ngModelOptions]="{standalone: true}"
+                    (keyup)="validate(2)" required="">
+                <label>Re-enter Username</label>
+            </div>
         </div>
-        <div  id="remove-user">
+
+        <div id="remove-user">
             <p *ngIf="!removeuser" (click)="removeUser()">Remove User?</p>
         </div>
-       
+
         <br>
         <div class="login-btn">
             <input type="submit" value={{heading}} [ngClass]="{'red-background':removeuser}">
         </div>
+        <p id="back" *ngIf="removeuser" (click)="backToMain()">Back</p>
         <div class="error-msg">
-             <p class="message" *ngIf="errorMssg">
-            {{errorMssg}}
-             </p>
+            <p class="message" *ngIf="errorMssg">
+                {{errorMssg}}
+            </p>
         </div>
     </form>
 </div>

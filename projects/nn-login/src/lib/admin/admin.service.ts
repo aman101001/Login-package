@@ -10,10 +10,10 @@ export class AdminService {
 
 
   addUser(data: any) {
-    return this.http.post('http://localhost:8080/' + 'addUser', data); //should provide the path of server
+    return this.http.post('http://localhost:8091/' + 'addUser', data); //should provide the path of server
   }
 
   removeUser(data: any) {
-    return this.http.post('http://localhost:8080/' + 'removeUser', data); //should provide the path of server
+    return this.http.post('http://localhost:8091/' + 'removeUser', data); //should provide the path of server
   }
 }

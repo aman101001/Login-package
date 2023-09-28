@@ -9,21 +9,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent {
-  @Input() DB_URL = "";
+  @Input() DB_URL = "";       //values assigned from the implementing project
   @Input() routePath = "";
-  // @Input() login=false;
-  // @Input() manageUser=false;
 
   adminForm!: FormGroup;
-
-  confirmPassword: any;
-  confirmEmail: any;
-    // userSession: any;
-  // invalidInputFields: any = [];
-
-  removeuser: boolean = false;
   errorMssg: any;
   heading: any = "Add";
+  confirmPassword: any;
+  confirmEmail: any;
+  loading:boolean=false;
+
+  removeuser: boolean = false;  //To display Delete user screen
+  // userSession: any;
+  // invalidInputFields: any = [];
 
   constructor(private adminService: AdminService, private fb: FormBuilder, private router: Router) {
 
@@ -39,7 +37,7 @@ export class AdminComponent {
   addUser() {
     var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     var body = {};
-    this.errorMssg="";
+    this.errorMssg = "";
 
     if (!this.removeuser) {
       if (this.DB_URL && this.adminForm.valid) {
@@ -53,13 +51,16 @@ export class AdminComponent {
             password: this.adminForm.value.password,
             DB_URL: this.DB_URL
           };
+          this.loading=true;
           this.adminService.addUser(body).subscribe((res: any) => {
             alert("User added successfully!!")
             this.router.navigateByUrl(this.routePath);
           }, (error: any) => {
-            if (error.status === 404) {
+            if (error.status === 404 || error.status === 409) {
               this.errorMssg = error.error.mssg;
             }
+          }).add(()=>{
+            this.loading=false;
           })
         }
       }
@@ -75,6 +76,7 @@ export class AdminComponent {
             DB_URL: this.DB_URL
           };
           if (confirm("User details will be deleted. Are you sure ?")) {
+            this.loading=true;
             this.adminService.removeUser(body).subscribe((res: any) => {
               alert("User removed successfully!!")
               this.router.navigateByUrl(this.routePath);
@@ -82,36 +84,39 @@ export class AdminComponent {
               if (error.status === 401) {
                 this.errorMssg = error.error.mssg;
               }
+            }).add(()=>{
+              this.loading=false;
             })
           }
         }
       }
     }
   }
-
-
   // else {
-
   // for (let controlName in this.adminForm.controls) {
   //   const control = this.adminForm.get(controlName);
   //     if (control?.invalid) {
   //       this.invalidInputFields.push(control);
   //     }
   //   }
-
   // }
-  removeUser(){
-    this.removeuser=true;
-    this.adminForm.reset();
-    this.heading="Delete"
-  }
 
-
-  validate(type:any){
-    if(type==1){
+  validate(type: any) {
+    if (type == 1) {
       this.errorMssg = (this.adminForm.value.password != this.confirmPassword) ? "Password's do not match!" : ""
     } else {
       this.errorMssg = (this.adminForm.value.email != this.confirmEmail) ? "Email do not match!" : "";
     }
+  }
+
+  removeUser() {               //Toggle to Delete user screen
+    this.removeuser = true;
+    this.adminForm.reset();
+    this.heading = "Delete"
+  }
+
+  backToMain() {              //Toggle to Add user screen
+    this.removeuser = false;
+    this.heading = "Add"
   }
 }

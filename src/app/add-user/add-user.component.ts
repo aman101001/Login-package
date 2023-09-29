@@ -6,12 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./add-user.component.scss']
 })
 export class AddUserComponent {
-  // config ={
-  //   DB_URL: "mongodb://localhost:27017/login",
-  //   routePath: "/",
-  //   type:{
-  //     login : false,
-  //     addUser :true
-  //   }
-  // }
+  DB_USER_TEST = 'admin';
+  PASSWORD_TEST = encodeURIComponent('stageR0b0#');
+  DB_URL=`mongodb://${this.DB_USER_TEST}:${this.PASSWORD_TEST}@localhost:19500/login?authSource=admin`;
 }

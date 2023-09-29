@@ -78,7 +78,7 @@ export class AdminComponent {
           if (confirm("User details will be deleted. Are you sure ?")) {
             this.loading=true;
             this.adminService.removeUser(body).subscribe((res: any) => {
-              alert("User removed successfully!!")
+              alert("User deleted successfully!!")
               this.router.navigateByUrl(this.routePath);
             }, (error: any) => {
               if (error.status === 401) {

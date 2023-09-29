@@ -1,26 +1,35 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { TransferService } from '../transfer.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  
-  constructor(private http: HttpClient) { }
+  server = this.transferService.currentserver();
+  ser:any;
+  conn:any;
+
+  constructor(private http: HttpClient,private transferService:TransferService) {
+    this.transferService.setserver(this.server);
+    this.ser = this.transferService.getServer();
+    this.conn = this.ser.DOMAIN + this.ser.SERVERPORT;
+   }
+
   login(data:any){
-    return this.http.post('http://localhost:8091/'+ 'login', data); //should provide the path of server
+    return this.http.post(this.conn+ '/loginbackend/login', data); //should provide the path of server
   }
 
   generateCode(data:any){
-    return this.http.post('http://localhost:8091/'+ 'generateCode', data);
+    return this.http.post(this.conn+ '/loginbackend/generateCode', data);
   }
 
   verifyCode(data:any){
-    return this.http.post('http://localhost:8091/'+ 'verifyCode', data);
+    return this.http.post(this.conn+ '/loginbackend/verifyCode', data);
   }
 
   resetPwd(data:any){
-    return this.http.post('http://localhost:8091/'+ 'resetPwd', data);
+    return this.http.post(this.conn+ '/loginbackend/resetPwd', data);
   }
 
   // getUserDetails(sessId:any) {

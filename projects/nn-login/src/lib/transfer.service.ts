@@ -8,7 +8,7 @@ export class TransferService {
   constructor() { }
 
   currentserver() {
-      var server = 'TEST';           // Current server is selected here
+      var server = 'LOCAL';           // Current server is selected here
       return server;
     }
 

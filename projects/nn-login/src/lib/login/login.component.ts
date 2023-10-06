@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   @Input() DB_URL = "";           //values assigned from the implementing project
   @Input() routePath = "";
+
+  @ViewChild('myInput') myInput: ElementRef | undefined;
 
   loginForm!: FormGroup;
   showforgotpwd: boolean = true;
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService, private fb: FormBuilder, private router: Router) {
 
   }
+
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -100,14 +103,7 @@ export class LoginComponent implements OnInit {
         }).add(()=>{
           this.loading=false;
         })
-      } else {
-        // for (let controlName in this.loginForm.controls) {
-        // const control = this.loginForm.get(controlName);
-        //   if (control?.invalid) {
-        //     this.invalidInputFields.push(control);
-        //   }
-        // }
-      }
+      } 
     } else {
       if (this.loginForm.get('email')?.valid) {
         if (!emailRegex.test(this.loginForm.value.email)) {
@@ -124,6 +120,9 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('email', body.email);
             this.verifiedEmail = body.email;
             this.verifyCode = true;
+            setTimeout(() => {
+              this.myInput?.nativeElement.focus();
+            });
             this.otp1 = "";
             this.otp2 = "";
             this.otp3 = "";
@@ -242,47 +241,4 @@ export class LoginComponent implements OnInit {
     this.showforgotpwd = true;
     this.heading = "Log In"
   }
-  // addUser() { 
-  //   var emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/; 
-  //   this.passwordsuccessful = true;
-  //   this.emailsuccessful = true;
-  //   var body = {};
-  //   if(this.DB_URL && this.loginForm.valid){
-  //     if (!emailRegex.test(this.loginForm.value.email)){
-  //        this.emailsuccessful = false;
-  //        return;
-  //     }
-  //       if(this.loginForm.value.password === this.confirmPassword){
-  //       body = {
-  //         email: this.loginForm.value.email,
-  //         password: this.loginForm.value.password,
-  //         DB_URL: this.DB_URL
-  //       };
-  //       this.loginService.addUser(body).subscribe((res: any) => {
-  //         alert("User added successfully!!")
-  //         this.router.navigateByUrl(this.routePath);
-  //       }, (error: any) => {
-  //         if (error.status === 404) {
-  //           this.loginsuccessful = false;
-  //         }
-  //       })
-  //     } else {
-  //       this.passwordsuccessful=false;
-  //     }
-  //   } else {
-  //     // for (let controlName in this.loginForm.controls) {
-  //     //   const control = this.loginForm.get(controlName);
-  //     //     if (control?.invalid) {
-  //     //       this.invalidInputFields.push(control);
-  //     //     }
-  //     //   }
-
-  //   }
-
-  // }
-
-  // validatePassword() {
-  //   this.passwordsuccessful = (this.loginForm.value.password != this.confirmPassword) ? false : true;
-  // }
-
 }

@@ -18,10 +18,10 @@ export class AdminService {
 
 
   addUser(data: any) {
-    return this.http.post(this.conn + '/loginbackend/addUser', data); //should provide the path of server
+    return this.http.post(this.conn + '/loginbackend/login/add-user', data); //should provide the path of server
   }
 
   removeUser(data: any) {
-    return this.http.post(this.conn  + '/loginbackend/removeUser', data); //should provide the path of server
+    return this.http.post(this.conn  + '/loginbackend/login/remove-user', data); //should provide the path of server
   }
 }

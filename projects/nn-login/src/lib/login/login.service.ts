@@ -21,15 +21,15 @@ export class LoginService {
   }
 
   generateCode(data:any){
-    return this.http.post(this.conn+ '/loginbackend/generateCode', data);
+    return this.http.post(this.conn+ '/loginbackend/login/generate-code', data);
   }
 
   verifyCode(data:any){
-    return this.http.post(this.conn+ '/loginbackend/verifyCode', data);
+    return this.http.post(this.conn+ '/loginbackend/login/verify-code', data);
   }
 
   resetPwd(data:any){
-    return this.http.post(this.conn+ '/loginbackend/resetPwd', data);
+    return this.http.put(this.conn+ '/loginbackend/login/reset-pwd', data);
   }
 
   // getUserDetails(sessId:any) {

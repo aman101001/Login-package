@@ -8,7 +8,7 @@ export class TransferService {
   constructor() { }
 
   currentserver() {
-      var server = 'TEST';           // Current server is selected here
+      var server = 'TESTING';           // Current server is selected here
       return server;
     }
 
@@ -20,7 +20,7 @@ export class TransferService {
         }
       }
 
-      if (server == 'TEST') {
+      if (server == 'TESTING') {
         this.ser = {
           'DOMAIN': 'https://commoninfra.99games.in',
           'SERVERPORT': "", //8091

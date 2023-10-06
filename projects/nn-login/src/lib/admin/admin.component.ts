@@ -92,15 +92,7 @@ export class AdminComponent {
       }
     }
   }
-  // else {
-  // for (let controlName in this.adminForm.controls) {
-  //   const control = this.adminForm.get(controlName);
-  //     if (control?.invalid) {
-  //       this.invalidInputFields.push(control);
-  //     }
-  //   }
-  // }
-
+  
   validate(type: any) {
     if (type == 1) {
       this.errorMssg = (this.adminForm.value.password != this.confirmPassword) ? "Password's do not match!" : ""
